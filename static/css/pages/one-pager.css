@@ -1,0 +1,21 @@
+body#one-pager {
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+body#one-pager .fullscreen-center {
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--background-secondary);
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+}
+.fullscreen-center form * {
+    margin: 5px;
+}

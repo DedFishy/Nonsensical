@@ -1,0 +1,15 @@
+*:root {
+    --background-secondary: #2f2d2e;
+    --background: #1b1a1b;
+    --foreground: #f0f7f4;
+    --accent: #e3b505;
+}
+
+@font-face {
+    font-family: Outfit;
+    src: url("/static/fonts/Outfit-VariableFont_wght.ttf");
+}
+@font-face {
+    font-family: SpecialGothicExpandedOne;
+    src: url("/static/fonts/SpecialGothicExpandedOne-Regular.ttf");
+}
