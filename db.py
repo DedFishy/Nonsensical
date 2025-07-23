@@ -1,5 +1,5 @@
 import sqlite3
-from const import DEBUG_MODE
+from const import DEBUG_MODE, POSTS_PER_PAGE
 from flask import request
 from datetime import datetime
 import cryptography
@@ -9,6 +9,15 @@ def construct_user(row):
         "username": row[0],
         "password": row[1],
         "creation": row[2]
+    }
+
+def construct_post(row):
+    return {
+        "id": row[0],
+        "title": row[1],
+        "body": row[2],
+        "owner": row[3],
+        "creation": row[4]
     }
 
 class Database:
@@ -28,6 +37,7 @@ class Database:
                 "username": username, 
                 "password": password_hashed if password_hashed is not None else cryptography.hash_password(password_raw),
                 "creation": datetime.now()})
+            self.connection.commit()
             return True, ""
         return False, f"The username \"{username}\" is taken."
     
@@ -39,6 +49,7 @@ class Database:
                 "username": username,
                 "creation": datetime.now()
             })
+            self.connection.commit()
             return token
         return False
 
@@ -50,6 +61,7 @@ class Database:
                 "owner": owner,
                 "creation": datetime.now()
             })
+            self.connection.commit()
             return self.cursor.fetchone()
         return False
 
@@ -60,8 +72,30 @@ class Database:
             return construct_user(row)
         return None
     
+    def get_user_by_token(self, token):
+        self.cursor.execute("SELECT * FROM tokens WHERE token IS :token", {"token": token})
+        row = self.cursor.fetchone()
+        if row is not None:
+            return construct_user(row)
+        return None
+    
     def get_user_by_request(self):
-        pass
+        return self.get_user_by_token(request.cookies.get("token"))
+    
+    def get_posts_by_request(self):
+        page = request.args["page"]
+        start_time = request.args["startTime"]
+
+        self.cursor.execute("SELECT * FROM posts WHERE creation < :starttime ORDER BY creation DESC LIMIT :limit OFFSET :offset", {
+            "starttime": datetime.fromtimestamp(int(start_time)),
+            "limit": POSTS_PER_PAGE,
+            "offset": page * POSTS_PER_PAGE})
+        
+        return [construct_post(row) for row in self.cursor.fetchall()]
+    
+    def get_post_by_id(self, post_id):
+        self.cursor.execute("SELECT * FROM posts WHERE id IS :id", {"id": post_id})
+        return construct_post(self.cursor.fetchone())
 
     def login_or_signup_by_request(self) -> tuple[bool, str]:
         form = request.form

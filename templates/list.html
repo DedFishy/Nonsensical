@@ -51,6 +51,35 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    data["posts"].forEach((post, i, a) => {
+                        const postElement = document.createElement("div");
+                        postElement.className = "post";
+
+                        const postHead = document.createElement("div");
+                        postHead.className = "post-head";
+                        postElement.appendChild(postHead);
+
+                        const postTitle = document.createElement("div");
+                        postTitle.className = "post-title";
+                        postTitle.innerText = post["title"];
+                        postHead.appendChild(postTitle);
+
+                        const posterName = document.createElement("div");
+                        posterName.className = "post-poster-title";
+                        posterName.innerText = post["owner"];
+                        postHead.appendChild(posterName);
+
+                        const postBody = document.createElement("div");
+                        postBody.className = "post-body";
+                        postBody.innerText = post["body"];
+                        postElement.appendChild(postBody);
+
+                        postList.appendChild(postElement);
+
+                        postElement.onclick = (event) => {
+                            document.location.href = `/posts/${post["id"]}`;
+                        }
+                    });
                     isLoadingPosts = false;
                 })
                 .catch(error => {
