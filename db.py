@@ -19,6 +19,7 @@ class Database:
         # Construct tables
         self.cursor.execute("CREATE TABLE IF NOT EXISTS users (username text primary key, password blob, creation timestamp)")
         self.cursor.execute("CREATE TABLE IF NOT EXISTS tokens (token text primary key, username text, creation timestamp)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS posts (id integer primary key, title text, body text, owner text, creation timestamp)")
         self.connection.commit()
     
     def create_user(self, username, password_raw=None, password_hashed=None):
@@ -41,11 +42,22 @@ class Database:
             return token
         return False
 
+    def create_post(self, title, body, owner):
+        if self.get_user_by_username(owner) is not None:
+            self.cursor.execute("INSERT INTO posts (title, body, owner, creation) VALUES (:title, :body, :owner, :creation) RETURNING id", {
+                "title": title,
+                "body": body,
+                "owner": owner,
+                "creation": datetime.now()
+            })
+            return self.cursor.fetchone()
+        return False
+
     def get_user_by_username(self, username):
         self.cursor.execute("SELECT * FROM users WHERE username IS :username", {"username": username})
-        rows = self.cursor.fetchall()
-        if len(rows) > 0:
-            return construct_user(rows[0])
+        row = self.cursor.fetchone()
+        if row is not None:
+            return construct_user(row)
         return None
     
     def get_user_by_request(self):

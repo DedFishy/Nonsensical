@@ -4,10 +4,71 @@
         <title>Nonsensical.net</title>
         <link rel="stylesheet" href="/static/css/vars.css">
         <link rel="stylesheet" href="/static/css/style.css">
-        <link rel="stylesheet" href="/static/css/pages/one-pager.css">
+        <link rel="stylesheet" href="/static/css/pages/list.css">
     </head>
-    <body id="one-pager">
-        <iframe src="/header" class="header"></iframe>
-        <iframe src="/footer" class="footer"></iframe>
+    <body>
+        <iframe src="/header" id="header"></iframe>
+
+        <div id="post-list">
+
+        </div>
+
+        <iframe src="/footer" id="footer"></iframe>
+
+        <script type="text/javascript">
+            const postList = document.getElementById("post-list");
+            const startingTime = Math.floor(Date.now() / 1000); // Keeping a consistent time allows results to be deterministic
+
+            var isLoadingPosts = false;
+            var postPage = 0
+
+            function showFetchError() {
+                const error = document.createElement("div");
+                error.className = "fetch-error";
+                
+                const errorMessage = document.createElement("div");
+                errorMessage.innerText = "Failed to get (more) posts."
+                errorMessage.className = "fetch-error-message";
+                error.appendChild(errorMessage);
+
+                const retryButton = document.createElement("button");
+                retryButton.innerText = "Retry"
+                retryButton.className = "fetch-retry-button";
+                retryButton.onclick = () => {
+                    error.remove();
+                    isLoadingPosts = false;
+                    addPosts();
+                }
+                error.appendChild(retryButton);
+
+                postList.appendChild(error);
+            }
+
+            function addPosts() {
+                if (isLoadingPosts) return;
+                isLoadingPosts = true;
+                fetch(`/posts?page=${postPage}&startTime=${startingTime}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    isLoadingPosts = false;
+                })
+                .catch(error => {
+                    showFetchError();
+                })
+            }
+
+            postList.onscroll = () => {
+                if (isLoadingPosts) return;
+
+                if (Math.ceil(postList.clientHeight + postList.scrollTop) >= postList.scrollHeight) {
+                    addPosts();
+                    postPage++;
+                }
+                
+            };
+
+            addPosts();
+        </script>
     </body>
 </html>

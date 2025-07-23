@@ -26,5 +26,19 @@ def login():
         response.set_cookie("token", result, max_age=TOKEN_EXPIRY_TIME)
         return response
 
+@app.route("/posts")
+def post_fetch():
+    page = flask.request.args["page"]
+    start_time = flask.request.args["startTime"]
+    return {"among": "us"}
+    
+@app.route("/header")
+def header():
+    return flask.render_template("header.html")
+@app.route("/footer")
+def footer():
+    return flask.render_template("footer.html")
+
+
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080)

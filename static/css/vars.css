@@ -3,6 +3,9 @@
     --background: #1b1a1b;
     --foreground: #f0f7f4;
     --accent: #e3b505;
+
+    --header-height: 50px;
+    --footer-height: 50px;
 }
 
 @font-face {
