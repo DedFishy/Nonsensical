@@ -4,6 +4,25 @@ body {
     font-family: Outfit, sans-serif;
 }
 
+h1 {
+    color: var(--accent);
+    text-shadow: 4px 4px 4px black;
+}
 h1, h2, h3, h4, h5, h6 {
     font-family: SpecialGothicExpandedOne, sans-serif;
+}
+
+input {
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--accent);
+    outline: none;
+    border-radius: 5px;
+    padding: 5px;
+    transition: 0.1s;
+}
+input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: var(--accent);
+    color: var(--background)
 }
