@@ -13,15 +13,36 @@
             <div id="post-title">
                 {{title}}
             </div>
-            <div id="poster">
-                {{poster}}
-            </div>
         </div>
+
+        <div id="poster"></div>
+
+        {% if files|length %}
+
+        <h2>Attachments</h2>
+        <div id="media">
+            
+            {% for file in files %}
+            <div class="file" filename="{{file}}"></div>
+            {% endfor %}
+        </div>
+
+        {% endif %}
 
         <div id="post-body">
             {{body}}
         </div>
+        <script src="/static/js/common.js"></script>
+        <script type="text/javascript">
+            const fileElements = document.getElementsByClassName("file");
 
-        <iframe src="/footer" id="footer"></iframe>
+            for (let i = 0; i < fileElements.length; i++) {
+                const element = fileElements[i];
+                element.appendChild(constructFileElement(element.getAttribute("filename"), "{{post_id}}"))
+            }
+
+            document.getElementById("poster").innerText = `Posted ${stringDateToRelativeStringDate("{{date}}")} by {{poster}}`
+        </script>
+
     </body>
 </html>

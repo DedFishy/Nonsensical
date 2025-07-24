@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Nonsensical.net</title>
+        <link rel="stylesheet" href="/static/css/vars.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/pages/newpost.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    </head>
+    <body>
+
+        <h1>New Post</h1>
+        <form action="/makepost" method="post" id="post-form" enctype="multipart/form-data"> 
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" placeholder="Title">
+
+            <textarea name="body" id="body"></textarea>
+
+            <label for="media">Media</label>
+            <input type="file" id="media" name="media" 
+            accept="image/*,video/*,audio/*"
+            multiple="yes">
+
+            <input type="submit" value="Post">
+        </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+        <script>
+            const easyMDE = new EasyMDE({
+                toolbar: ["bold", "italic", "heading", "quote", "code", "unordered-list", "link"]
+            });
+        </script>
+    </body>
+</html>

@@ -13,14 +13,15 @@
 
         </div>
 
-        <iframe src="/footer" id="footer"></iframe>
-
+        <script src="/static/js/common.js"></script>
         <script type="text/javascript">
             const postList = document.getElementById("post-list");
             const startingTime = Math.floor(Date.now() / 1000); // Keeping a consistent time allows results to be deterministic
 
             var isLoadingPosts = false;
             var postPage = 0
+
+            const postsPerPage = 10;
 
             function showFetchError() {
                 const error = document.createElement("div");
@@ -44,6 +45,14 @@
                 postList.appendChild(error);
             }
 
+            function showEndMessage() {
+                const message = document.createElement("div");
+                message.className = "end-message";
+                message.innerText = "You've reached the end of the list of posts."
+
+                postList.appendChild(message);
+            }
+
             function addPosts() {
                 if (isLoadingPosts) return;
                 isLoadingPosts = true;
@@ -51,6 +60,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    postPage++;
                     data["posts"].forEach((post, i, a) => {
                         const postElement = document.createElement("div");
                         postElement.className = "post";
@@ -64,10 +74,11 @@
                         postTitle.innerText = post["title"];
                         postHead.appendChild(postTitle);
 
-                        const posterName = document.createElement("div");
-                        posterName.className = "post-poster-title";
-                        posterName.innerText = post["owner"];
-                        postHead.appendChild(posterName);
+                        var postTime = stringDateToRelativeStringDate(post["creation"]);
+                        const postMeta = document.createElement("div");
+                        postMeta.className = "post-meta";
+                        postMeta.innerText = `Posted ${postTime} by ${post["owner"]}`;
+                        postHead.appendChild(postMeta);
 
                         const postBody = document.createElement("div");
                         postBody.className = "post-body";
@@ -80,9 +91,16 @@
                             document.location.href = `/posts/${post["id"]}`;
                         }
                     });
-                    isLoadingPosts = false;
+                    if (data["posts"].length < postsPerPage) {
+                        showEndMessage();
+                    }
+                    else {
+                        isLoadingPosts = false;
+                        postList.onscroll(); // Display more posts if we are still not scrolling
+                    }
                 })
                 .catch(error => {
+                    console.log(error)
                     showFetchError();
                 })
             }

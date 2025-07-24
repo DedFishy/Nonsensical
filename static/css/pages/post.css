@@ -5,6 +5,7 @@ body {
     height: 100dvh;
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 #post-head {
     width: 100vw;
@@ -19,10 +20,11 @@ body {
     font-weight: normal;
     font-style: italic;
     flex-grow: 1;
-    text-align: right;
+    font-size: 1.5em;
 }
 #post-body {
     margin-left: auto;
     margin-right: auto;
     width: 50vw;
+    overflow-wrap: break-word;
 }

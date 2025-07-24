@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: SpecialGothicExpandedOne, sans-serif;
 }
 
-input {
+input, button {
     background-color: var(--background);
     color: var(--foreground);
     border: 2px solid var(--accent);
@@ -21,7 +21,7 @@ input {
     padding: 5px;
     transition: 0.1s;
 }
-input[type="submit"]:hover {
+input[type="submit"]:hover, button:hover {
     cursor: pointer;
     background-color: var(--accent);
     color: var(--background)
@@ -35,7 +35,4 @@ input[type="submit"]:hover {
 }
 #header {
     height: var(--header-height);
-}
-#footer {
-    height: var(--footer-height);
 }

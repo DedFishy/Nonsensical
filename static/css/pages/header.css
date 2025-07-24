@@ -13,3 +13,28 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     cursor: pointer;
 }
+
+.spacer {
+    flex-grow: 1
+}
+
+a {
+    color: white;
+    border: 2px solid var(--accent);
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px;
+    text-decoration: none;
+    background-color: var(--background-secondary);
+    transition: 0.1s;
+}
+a:hover {
+    border: 2px solid var(--accent-secondary)
+}
+a.link {
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    font-size: 1.5em;
+}

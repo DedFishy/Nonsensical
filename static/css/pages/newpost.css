@@ -1,0 +1,55 @@
+body {
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+h1 {
+    margin: 0;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+form input, form label {
+    margin: 5px;
+    width: 100%;
+}
+
+div.CodeMirror {
+    background-color: transparent;
+    color: white;
+}
+div.CodeMirror-cursor {
+    border-color: white;
+}
+div.editor-preview {
+    background-color: transparent;
+    color: white;
+}
+.EasyMDEContainer {
+    width: 75vw;
+    max-height: 60dvh;
+    overflow: scroll;
+}
+.CodeMirror-sizer {
+    text-align: left;
+}
+.editor-toolbar button {
+    color: white;
+}
+.editor-toolbar button.active, .editor-toolbar button:hover {
+    color: var(--background-secondary);
+}
+input[type="submit"] {
+    width: 75vw;
+}

@@ -4,8 +4,19 @@
         <link rel="stylesheet" href="/static/css/vars.css">
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="/static/css/pages/header.css">
+        <base target="_parent">
     </head>
     <body>
         <h1 onclick="parent.document.location.href = '/'">Nonsensical.net</h1>
+
+        <div class="spacer"></div>
+
+        {% if username|length %}
+
+        <a href="/newpost">New Post</a>
+        <br>
+        <a href="/account" class="link">{{username}}</div>
+
+        {% endif %}
     </body>
 </html>

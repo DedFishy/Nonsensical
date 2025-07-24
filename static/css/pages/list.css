@@ -9,9 +9,7 @@ body {
 #post-list {
     flex-grow: 1;
     overflow-y: scroll;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50vw;
+    width: 100vw;
 }
 .post {
     width: 100%;
@@ -20,11 +18,22 @@ body {
     border-radius: 8px;
     box-sizing: border-box;
     transition: 0.1s;
-    border: 2px solid var(--background-secondary);
+    margin-bottom: 5px;
+    border: 2px solid var(--accent);
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 .post:hover {
-    border: 2px solid var(--accent);
+    border: 2px solid var(--accent-secondary);
     cursor: pointer;
+}
+.post-body, .post-title {
+    overflow-wrap: break-word;
+}
+.post-body {
+    max-height: 10vh;
+    overflow-y: hidden;
 }
 .post .post-head {
     display: flex;
@@ -32,10 +41,17 @@ body {
     font-weight: bold;
     font-size: 2em;
 }
-.post .post-head .post-poster-title {
+.post .post-head .post-meta {
     flex-grow: 1;
     text-align: right;
     font-size: 0.5em;
-    font-style: italic;
     font-weight: normal;
+}
+.end-message {
+    text-align: center;
+    margin: 25px;
+    font-size: 2em;
+}
+.fetch-error {
+    text-align: center;
 }
