@@ -2,7 +2,7 @@ import os
 import flask
 from db import Database
 import util
-from const import DEBUG_MODE, TOKEN_EXPIRY_TIME, UPLOAD_FOLDER
+from const import DEBUG_MODE, MAX_UPLOAD_SIZE, TOKEN_EXPIRY_TIME, UPLOAD_FOLDER
 
 import faulthandler
 
@@ -13,6 +13,7 @@ app = flask.Flask(__name__)
 db = Database()
 
 if DEBUG_MODE: app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config['MAX_CONTENT_LENGTH'] = MAX_UPLOAD_SIZE * 1000 * 1000
 
 @app.route("/")
 def index():

@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from const import DEBUG_MODE, POSTS_PER_PAGE, UPLOAD_FOLDER
+from const import DEBUG_MODE, MAX_BODY_LENGTH, MAX_TITLE_LENGTH, POSTS_PER_PAGE, UPLOAD_FOLDER
 from flask import request
 from datetime import datetime
 import cryptography
@@ -85,6 +85,8 @@ class Database:
         
         user = self.get_user_by_request()
         if user is None: return False, "Invalid user token"
+        if len(form["title"]) > MAX_TITLE_LENGTH: return False, "Title is too long"
+        if len(form["body"]) > MAX_BODY_LENGTH: return False, "Body is too long"
         post_id = self.create_post(form["title"], form["body"], user["username"])
 
         files = request.files.getlist("media")

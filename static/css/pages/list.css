@@ -28,8 +28,10 @@ body {
     border: 2px solid var(--accent-secondary);
     cursor: pointer;
 }
+
 .post-body, .post-title {
     overflow-wrap: break-word;
+    min-width: 0;
 }
 .post-body {
     max-height: 10vh;

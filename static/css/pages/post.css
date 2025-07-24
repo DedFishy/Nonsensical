@@ -24,8 +24,15 @@ body {
 #post-body {
     margin-left: auto;
     margin-right: auto;
-    width: 50vw;
+    width: 80vw;
     overflow-wrap: break-word;
+    text-align: left;
+}
+#post-title {
+    overflow-wrap: break-word;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
 }
 #media {
     display: flex;

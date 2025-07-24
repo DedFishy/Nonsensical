@@ -38,8 +38,6 @@ div.editor-preview {
 }
 .EasyMDEContainer {
     width: 75vw;
-    max-height: 60dvh;
-    overflow: scroll;
 }
 .CodeMirror-sizer {
     text-align: left;

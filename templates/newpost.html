@@ -10,11 +10,12 @@
     <body>
 
         <h1>New Post</h1>
-        <form action="/makepost" method="post" id="post-form" enctype="multipart/form-data"> 
+        <h3 id="error"></h3>
+        <form action="/makepost" method="post" id="post-form" enctype="multipart/form-data" onsubmit="return validateForm()"> 
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" placeholder="Title">
+            <input type="text" name="title" id="title" placeholder="Title" maxlength=125>
 
-            <textarea name="body" id="body"></textarea>
+            <textarea name="body" id="body" maxlength=10000></textarea>
 
             <label for="media">Media</label>
             <input type="file" id="media" name="media" 
@@ -27,8 +28,17 @@
         <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
         <script>
             const easyMDE = new EasyMDE({
-                toolbar: ["bold", "italic", "heading", "quote", "code", "unordered-list", "link"]
+                toolbar: ["bold", "italic", "heading", "quote", "code", "unordered-list", "link"],
+                maxHeight: "50dvh"
             });
+
+            function validateForm() {
+                if (easyMDE.value().length > 10000) {
+                    document.getElementById("error").innerText = "Body is too long";
+                    return false;
+                }
+                return true;
+            }
         </script>
     </body>
 </html>
