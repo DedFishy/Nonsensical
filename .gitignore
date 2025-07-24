@@ -1,0 +1,5 @@
+post_media/*
+staging.db
+production.db
+.debug
+__pycache__
