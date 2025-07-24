@@ -28,3 +28,42 @@ body {
     width: 50vw;
     overflow-wrap: break-word;
 }
+#media {
+    display: flex;
+    flex-direction: row;
+}
+#file-list {
+    font-size: 1.25em;
+}
+.file-list-button {
+    margin: 5px;
+    padding: 5px;
+    transition: 0.1s;
+    border-radius: 5px;
+}
+.file-list-button.selected-button {
+    background-color: var(--accent);
+    color: var(--background-secondary);
+}
+.file-list-button.selected-button:hover {
+    background-color: var(--accent);
+    color: black;
+}
+.file-list-button:hover {
+    background-color: var(--background-secondary);
+}
+#file-view {
+    flex-grow: 1;
+}
+.file {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    display: none;
+    transition: 0.1s;
+}
+.file.selected {
+    display: flex;
+}

@@ -21,10 +21,20 @@
 
         <h2>Attachments</h2>
         <div id="media">
+
+            <div id="file-list">
+                {% for file in files %}
+                    <div class="file-list-button" id="{{file}}-button" onclick="openFile('{{file}}')">{{file}}</div>
+                {% endfor %}
+            </div>
+
+            <div id="file-view">
+                {% for file in files %}
+                    <div class="file" id="{{file}}" filename="{{file}}"></div>
+                {% endfor %}
+            </div>
             
-            {% for file in files %}
-            <div class="file" filename="{{file}}"></div>
-            {% endfor %}
+            
         </div>
 
         {% endif %}
@@ -39,9 +49,24 @@
             for (let i = 0; i < fileElements.length; i++) {
                 const element = fileElements[i];
                 element.appendChild(constructFileElement(element.getAttribute("filename"), "{{post_id}}"))
+                if (i == 0) openFile(element.getAttribute("filename"));
             }
 
-            document.getElementById("poster").innerText = `Posted ${stringDateToRelativeStringDate("{{date}}")} by {{poster}}`
+            document.getElementById("poster").innerText = `Posted ${stringDateToRelativeStringDate("{{date}}")} by {{poster}}`;
+
+            function openFile(filename) {
+                const selected = document.querySelector(".selected");
+                if (selected) {
+                    selected.classList.remove("selected");
+                }
+                const selectedButton = document.querySelector(".selected-button");
+                if (selectedButton) {
+                    selectedButton.classList.remove("selected-button");
+                }
+                document.getElementById(filename).classList.add("selected");
+                document.getElementById(filename + "-button").classList.add("selected-button");
+            }
+
         </script>
 
     </body>
