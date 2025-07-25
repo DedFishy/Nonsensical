@@ -33,16 +33,22 @@ function stringDateToRelativeStringDate(date) {
     }
 }
 
-function constructFileElement(filename, post_id) {
+const imageTypes = ["png", "jpeg", "jpg", "webp", "gif"];
+const audioTypes = ["mp3", "wav"];
+
+function getFileType(filename) {
     const filenameSplit = filename.split(".");
-    const filetype = filenameSplit[filenameSplit.length-1];
-    console.log(filetype);
+    return filenameSplit[filenameSplit.length-1];
+}
+
+function constructFileElement(filename, post_id) {
+    const filetype = getFileType(filename);
     const url = `/postmedia/${post_id}/${filename}`;
-    if (["png", "jpeg", "jpg", "webp", "gif"].includes(filetype)) {
+    if (imageTypes.includes(filetype)) {
         const element = document.createElement("img");
         element.src = url;
         return element;
-    } else if (["mp3", "wav"].includes(filetype)) {
+    } else if (audioTypes.includes(filetype)) {
         const element = document.createElement("audio");
         element.controls = true;
         const source = document.createElement("source");
@@ -55,4 +61,10 @@ function constructFileElement(filename, post_id) {
         element.href = url;
         return element;
     }
+}
+
+function escapeHTML(str){
+    var p = document.createElement("p");
+    p.appendChild(document.createTextNode(str));
+    return p.innerHTML;
 }

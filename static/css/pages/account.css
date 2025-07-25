@@ -17,3 +17,15 @@ form {
     width: 100vw;
     gap: 25px;
 }
+#tokens .token {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px;
+}
+.token .active-indicator {
+    color: var(--accent);
+    font-weight: bold;
+}

@@ -20,11 +20,13 @@
         {% if files|length %}
         <div id="media">
 
+            {% if files|length > 1 %}
             <div id="file-list">
                 {% for file in files %}
                     <div class="file-list-button" id="{{file}}-button" onclick="openFile('{{file}}')">{{file}}</div>
                 {% endfor %}
             </div>
+            {% endif %}
 
             <div id="file-view">
                 {% for file in files %}
@@ -37,11 +39,25 @@
 
         {% endif %}
 
-        <p id="post-body">
-            <span>{{body}}</span>
-        </p>
+        {% if body|length %}
+        <div id="post-body">
+            <div id="post-body-content"></div>
+        </div>
+        {% endif %}
+
+        {% if is_owned %}
+        <div id="controls">
+            <a class="button" href="{{post_id}}/edit">Edit</a>
+            <a class="button" href="{{post_id}}/delete">Delete</a>
+        </div>
+        {% endif %}
         <script src="/static/js/common.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
         <script type="text/javascript">
+            const converter = new showdown.Converter();
+            const body = document.getElementById("post-body-content")
+            if (body) body.innerHTML = converter.makeHtml(`{{body}}`);
+
             const fileElements = document.getElementsByClassName("file");
 
             for (let i = 0; i < fileElements.length; i++) {
@@ -50,7 +66,8 @@
                 if (i == 0) openFile(element.getAttribute("filename"));
             }
 
-            document.getElementById("poster").innerText = `Posted ${stringDateToRelativeStringDate("{{date}}")} by {{poster}}`;
+            document.getElementById("poster").innerText = `Posted ${stringDateToRelativeStringDate("{{date}}")} by`;
+            document.getElementById("poster").innerHTML += " <a href='/users/{{poster}}'>{{poster}}</a>"
 
             function openFile(filename) {
                 const selected = document.querySelector(".selected");
@@ -62,7 +79,8 @@
                     selectedButton.classList.remove("selected-button");
                 }
                 document.getElementById(filename).classList.add("selected");
-                document.getElementById(filename + "-button").classList.add("selected-button");
+                const button = document.getElementById(filename + "-button");
+                if (button) button.classList.add("selected-button");
             }
 
         </script>

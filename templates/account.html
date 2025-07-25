@@ -9,7 +9,8 @@
     <body>
         <iframe src="/header" id="header"></iframe>
 
-        <h1><a href="/user/{{username}}">Profile</a></h1>
+        <h1>My Profile</h1>
+        <a href="/user/{{username}}" class="button">Public Page</a>
 
         <div id="account-settings">
             <h2>{{username}}</h2>
@@ -21,6 +22,21 @@
                 multiple="no" onchange="document.getElementById('pfp-submit').click()">
                 <input type="submit" value="Update Profile Picture" hidden id="pfp-submit">
             </form>
+        </div>
+
+        <div id="tokens">
+            <h2>Signed In Devices</h2>
+            <a href='/deletealltokens' class="button">Sign Out Everywhere</a>
+            {% for token in tokens %}
+            <div class="token">
+                {% if token['token'] == active_token %}
+                <div class="active-indicator">This Device</div>
+                {% endif %}
+                <div class="token-platform">{{token["platform"]}}</div>
+                <div class="token-browser">{{token["browser"]}}</div>
+                <a href="/deletetoken/{{token['token']}}" class="button">Sign Out</a>
+            </div>
+            {% endfor %}
         </div>
 
     </body>

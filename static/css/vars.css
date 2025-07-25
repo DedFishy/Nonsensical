@@ -6,6 +6,8 @@
     --accent-secondary: #fff;
 
     --header-height: 50px;
+
+    --box-shadow: 5px 5px 5px #00000094;
 }
 
 @font-face {

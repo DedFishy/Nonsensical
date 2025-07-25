@@ -7,6 +7,7 @@ body#one-pager {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: var(--background);
 }
 body#one-pager .fullscreen-center {
     width: fit-content;
@@ -15,6 +16,7 @@ body#one-pager .fullscreen-center {
     padding: 25px;
     border-radius: 25px;
     text-align: center;
+    box-shadow: var(--box-shadow);
 }
 .fullscreen-center form * {
     margin: 5px;

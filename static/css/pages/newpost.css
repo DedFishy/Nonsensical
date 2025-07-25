@@ -1,4 +1,4 @@
-body {
+body.pattern-zigzag-md {
     width: 100vw;
     height: 100dvh;
     margin: 0;
@@ -8,6 +8,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    background-color: var(--background);
 }
 #newpost-frame {
     display: flex;
@@ -46,6 +47,7 @@ div.editor-preview {
 }
 .EasyMDEContainer {
     width: 75vw;
+    background-color: var(--background);
 }
 .CodeMirror-sizer {
     text-align: left;

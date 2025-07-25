@@ -4,7 +4,7 @@ body {
     font-family: Outfit, sans-serif;
 }
 
-h1 {
+h1#title {
     color: var(--accent);
     text-shadow: 4px 4px 4px black;
 }
@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: SpecialGothicExpandedOne, sans-serif;
 }
 
-input, button, .file-input {
+input, button, .file-input, a.button {
     background-color: var(--background);
     color: var(--foreground);
     border: 2px solid var(--accent);
@@ -21,11 +21,12 @@ input, button, .file-input {
     padding: 5px;
     transition: 0.1s;
     cursor: pointer;
+    text-decoration: none;
 }
 input[type="file"] {
     display: none;
 }
-input[type="submit"]:hover, button:hover, .file-input:hover {
+input[type="submit"]:hover, button:hover, .file-input:hover, a.button:hover {
     cursor: pointer;
     background-color: var(--accent);
     color: var(--background)
@@ -45,4 +46,8 @@ input[type="submit"]:hover, button:hover, .file-input:hover {
     border-radius: 150px;
     height: 150px;
     width: 150px;
+}
+
+#logo {
+    height: 2em;
 }

@@ -5,15 +5,16 @@
         <link rel="stylesheet" href="/static/css/vars.css">
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="/static/css/pages/one-pager.css">
+        <link href="/static/css/pattern.min.css" rel="stylesheet">
     </head>
-    <body id="one-pager">
+    <body id="one-pager" class="pattern-zigzag-md">
         <div class="fullscreen-center">
-            <h1>Nonsensical.net</h1>
+            <img src="/static/img/text.svg" id="logo">
             <form action="/login" method="post">
 
                 <label for="username">Username</label>
                 <br>
-                <input type="text" id="username" name="username" placeholder="Username">
+                <input type="text" id="username" name="username" placeholder="Username" maxlength="15">
                 <br>
                 <label for="password">Password</label>
                 <br>

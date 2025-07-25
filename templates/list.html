@@ -6,8 +6,9 @@
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="/static/css/pages/list.css">
         <link rel="stylesheet" href="/static/css/pages/{% block morecss %}{% endblock %}.css">
+        <link href="/static/css/pattern.min.css" rel="stylesheet">
     </head>
-    <body>
+    <body class="pattern-diagonal-lines-md">
         <iframe src="/header" id="header"></iframe>
 
         
@@ -18,7 +19,10 @@
         </div>
 
         <script src="/static/js/common.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
         <script type="text/javascript">
+            const converter = new showdown.Converter();
+
             const postList = document.getElementById("post-list");
             const startingTime = Math.floor(Date.now() / 1000); // Keeping a consistent time allows results to be deterministic
 
@@ -55,7 +59,7 @@
             function showEndMessage() {
                 const message = document.createElement("div");
                 message.className = "end-message";
-                message.innerText = "You've reached the end of the list of posts."
+                message.innerText = "You've seen it all!"
 
                 postList.appendChild(message);
             }
@@ -86,12 +90,28 @@
                         postMeta.className = "post-meta";
                         postMeta.innerText = `Posted ${postTime} by `;
                         postMeta.innerHTML += `<a href="/user/${post["owner"]}">${post["owner"]}</a>`
+                        postMeta.innerHTML += `<img src="/pfp/${post["owner"]}.png">`
                         postHead.appendChild(postMeta);
 
-                        const postBody = document.createElement("div");
-                        postBody.className = "post-body";
-                        postBody.innerText = post["body"];
-                        postElement.appendChild(postBody);
+                        if(post["body"].replaceAll(" ", "").length != 0) {
+                            const postBody = document.createElement("div");
+                            postBody.className = "post-body";
+                            postBody.innerHTML = converter.makeHtml(escapeHTML(post["body"]));
+                            postElement.appendChild(postBody);
+                        }
+
+                        if (post["files"].length > 0) {
+                            const postImages = document.createElement("div");
+                            postImages.className = "post-images";
+                            post["files"].forEach((filename, i, a) => {
+                                if (imageTypes.includes(getFileType(filename))) {
+                                    const imageEl = document.createElement("img");
+                                    imageEl.src = `/postmedia/${post["id"]}/${filename}`
+                                    postImages.appendChild(imageEl);
+                                }
+                            });
+                            postElement.appendChild(postImages);
+                        }
 
                         postList.appendChild(postElement);
 

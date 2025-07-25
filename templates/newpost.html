@@ -6,8 +6,9 @@
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="/static/css/pages/newpost.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+        <link href="/static/css/pattern.min.css" rel="stylesheet">
     </head>
-    <body>
+    <body class="pattern-zigzag-md">
 
         <iframe src="/header" id="header"></iframe>
 
@@ -15,17 +16,24 @@
 
             <h1>New Post</h1>
             <h3 id="error"></h3>
-            <form action="/makepost" method="post" id="post-form" enctype="multipart/form-data" onsubmit="return validateForm()"> 
+            <form 
+            {% if post_id == -1 %}
+                action="/makepost"
+            {% else %}
+                action="/editpost/{{post_id}}"
+            {% endif %}
+            method="post" id="post-form" enctype="multipart/form-data" onsubmit="return validateForm()"> 
                 <label for="title">Title</label>
-                <input type="text" name="title" id="title" placeholder="Title" maxlength=125>
+                <input type="text" name="title" id="title" placeholder="Title" maxlength=125 value="{{title}}">
 
-                <textarea name="body" id="body" maxlength=10000></textarea>
+                <textarea name="body" id="body" maxlength=10000>{{body}}</textarea>
 
-                <label for="media">Media</label>
+                <label for="media" class="file-input">Upload Media Files</label>
                 <input type="file" id="media" name="media" 
                 accept="image/*,video/*,audio/*"
                 multiple="yes">
-
+                
+                
                 <input type="submit" value="Post">
             </form>
 
