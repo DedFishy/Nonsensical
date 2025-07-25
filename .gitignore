@@ -4,3 +4,4 @@ production.db
 .debug
 __pycache__
 pfp/*
+config.py

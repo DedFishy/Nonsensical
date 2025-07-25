@@ -6,6 +6,8 @@ from const import DEBUG_MODE, MAX_UPLOAD_SIZE, TOKEN_EXPIRY_TIME, UPLOAD_FOLDER
 
 import faulthandler
 
+from config import SECRET_KEY
+
 
 faulthandler.enable()
 
@@ -14,6 +16,7 @@ db = Database()
 
 if DEBUG_MODE: app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['MAX_CONTENT_LENGTH'] = MAX_UPLOAD_SIZE * 1000 * 1000
+app.config["SECRET_KEY"] = SECRET_KEY
 
 @app.route("/")
 def index():
