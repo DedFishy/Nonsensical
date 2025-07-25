@@ -1,5 +1,7 @@
 import os
 import flask
+import werkzeug
+import werkzeug.exceptions
 from db import Database
 import util
 from const import DEBUG_MODE, MAX_UPLOAD_SIZE, TOKEN_EXPIRY_TIME, UPLOAD_FOLDER
@@ -141,6 +143,12 @@ def deletealltokens():
     if not user: return flask.redirect("/", 301)
     db.delete_all_tokens(user["username"])
     return flask.redirect("/", 301)
+
+
+@app.errorhandler(werkzeug.exceptions.HTTPException)
+def handle_exception(e):
+    
+    return util.get_error_template(e.code, e.description, "/", "Home")
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080)
