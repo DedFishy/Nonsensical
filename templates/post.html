@@ -57,7 +57,7 @@
         <script type="text/javascript">
             const converter = new showdown.Converter();
             const body = document.getElementById("post-body-content")
-            if (body) body.innerHTML = converter.makeHtml(`{{body}}`);
+            if (body) body.innerHTML = converter.makeHtml({{body | tojson}});
 
             const fileElements = document.getElementsByClassName("file");
 

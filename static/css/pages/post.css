@@ -30,6 +30,7 @@ body {
     background-color: var(--background-secondary);
     border-radius: 5px;
     padding: 10px;
+    text-align: left;
 }
 #post-body span {
     text-align: left;
