@@ -6,7 +6,11 @@ body {
     display: flex;
     flex-direction: column;
 }
+body h1 {
+    text-align: center;
+}
 #post-list {
+    padding-top: 10px;
     flex-grow: 1;
     overflow-y: scroll;
     width: 100vw;

@@ -1,0 +1,12 @@
+{% extends "list.html" %}
+{% block title %}{{username}}'s Profile | Nonsensical.net{% endblock %}
+{% block morecss %}user-list{% endblock %}
+{% block head %}
+<div id="user-header">
+    <img class="pfp" src="/pfp/{{username}}.png">
+    <h1>{{username}}</h1>
+</div>
+<h2>Posts</h2>
+{% endblock %}
+{% block mode %}user{% endblock %}
+{% block extra %}{{username}}{% endblock %}

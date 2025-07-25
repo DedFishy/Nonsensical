@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Nonsensical.net</title>
+        <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="/static/css/vars.css">
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="/static/css/pages/list.css">
+        <link rel="stylesheet" href="/static/css/pages/{% block morecss %}{% endblock %}.css">
     </head>
     <body>
         <iframe src="/header" id="header"></iframe>
 
+        
+
         <div id="post-list">
+        {% block head %}{% endblock %}
 
         </div>
 
@@ -22,6 +26,9 @@
             var postPage = 0
 
             const postsPerPage = 10;
+
+            const mode = "{% block mode %}{% endblock %}";
+            const extra = "{% block extra %}{% endblock %}";
 
             function showFetchError() {
                 const error = document.createElement("div");
@@ -56,7 +63,7 @@
             function addPosts() {
                 if (isLoadingPosts) return;
                 isLoadingPosts = true;
-                fetch(`/posts?page=${postPage}&startTime=${startingTime}`)
+                fetch(`/posts?page=${postPage}&startTime=${startingTime}&mode=${mode}&extra=${extra}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -77,7 +84,8 @@
                         var postTime = stringDateToRelativeStringDate(post["creation"]);
                         const postMeta = document.createElement("div");
                         postMeta.className = "post-meta";
-                        postMeta.innerText = `Posted ${postTime} by ${post["owner"]}`;
+                        postMeta.innerText = `Posted ${postTime} by `;
+                        postMeta.innerHTML += `<a href="/user/${post["owner"]}">${post["owner"]}</a>`
                         postHead.appendChild(postMeta);
 
                         const postBody = document.createElement("div");

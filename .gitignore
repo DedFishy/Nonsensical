@@ -3,3 +3,4 @@ staging.db
 production.db
 .debug
 __pycache__
+pfp/*

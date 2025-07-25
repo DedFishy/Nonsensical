@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Nonsensical.net</title>
+        <title>New Post | Nonsensical.net</title>
         <link rel="stylesheet" href="/static/css/vars.css">
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="/static/css/pages/newpost.css">
@@ -9,21 +9,27 @@
     </head>
     <body>
 
-        <h1>New Post</h1>
-        <h3 id="error"></h3>
-        <form action="/makepost" method="post" id="post-form" enctype="multipart/form-data" onsubmit="return validateForm()"> 
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" placeholder="Title" maxlength=125>
+        <iframe src="/header" id="header"></iframe>
 
-            <textarea name="body" id="body" maxlength=10000></textarea>
+        <div id="newpost-frame">
 
-            <label for="media">Media</label>
-            <input type="file" id="media" name="media" 
-            accept="image/*,video/*,audio/*"
-            multiple="yes">
+            <h1>New Post</h1>
+            <h3 id="error"></h3>
+            <form action="/makepost" method="post" id="post-form" enctype="multipart/form-data" onsubmit="return validateForm()"> 
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" placeholder="Title" maxlength=125>
 
-            <input type="submit" value="Post">
-        </form>
+                <textarea name="body" id="body" maxlength=10000></textarea>
+
+                <label for="media">Media</label>
+                <input type="file" id="media" name="media" 
+                accept="image/*,video/*,audio/*"
+                multiple="yes">
+
+                <input type="submit" value="Post">
+            </form>
+
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
         <script>

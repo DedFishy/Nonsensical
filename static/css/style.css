@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: SpecialGothicExpandedOne, sans-serif;
 }
 
-input, button {
+input, button, .file-input {
     background-color: var(--background);
     color: var(--foreground);
     border: 2px solid var(--accent);
@@ -20,19 +20,29 @@ input, button {
     border-radius: 5px;
     padding: 5px;
     transition: 0.1s;
+    cursor: pointer;
 }
-input[type="submit"]:hover, button:hover {
+input[type="file"] {
+    display: none;
+}
+input[type="submit"]:hover, button:hover, .file-input:hover {
     cursor: pointer;
     background-color: var(--accent);
     color: var(--background)
 }
 
-#header, #footer {
+#header {
     width: 100vw;
     margin: 0;
     padding: 0;
     border: None;
-}
-#header {
     height: var(--header-height);
+    box-shadow: 0 1px 5px 0 black;
+    z-index: 5;
+}
+
+.pfp {
+    border-radius: 150px;
+    height: 150px;
+    width: 150px;
 }

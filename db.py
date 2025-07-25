@@ -124,16 +124,34 @@ class Database:
     def get_posts_by_request(self):
         page = int(request.args["page"])
         start_time = request.args["startTime"]
+        mode = request.args["mode"]
+        extra = request.args["extra"]
+
         self.db_lock.acquire()
-        print(f"Limit: {POSTS_PER_PAGE}, Offset: {page * POSTS_PER_PAGE}, Start Time: {datetime.fromtimestamp(int(start_time))}")
-        self.cursor.execute("SELECT * FROM posts WHERE creation < :starttime ORDER BY creation DESC LIMIT :limit OFFSET :offset", {
-            "starttime": datetime.fromtimestamp(int(start_time)),
-            "limit": POSTS_PER_PAGE,
-            "offset": page * POSTS_PER_PAGE})
+        print(f"Limit: {POSTS_PER_PAGE}, Offset: {page * POSTS_PER_PAGE}, Start Time: {datetime.fromtimestamp(int(start_time))}, Mode: {mode}, Extra: {extra}")
+        if mode == "all":
+            self.cursor.execute("SELECT * FROM posts WHERE creation < :starttime ORDER BY creation DESC LIMIT :limit OFFSET :offset", {
+                "starttime": datetime.fromtimestamp(int(start_time)),
+                "limit": POSTS_PER_PAGE,
+                "offset": page * POSTS_PER_PAGE})
+        elif mode == "user":
+            self.cursor.execute("SELECT * FROM posts WHERE creation < :starttime AND owner IS :username ORDER BY creation DESC LIMIT :limit OFFSET :offset", {
+                "starttime": datetime.fromtimestamp(int(start_time)),
+                "limit": POSTS_PER_PAGE,
+                "offset": page * POSTS_PER_PAGE,
+                "username": extra})
         rows = self.cursor.fetchall()
         self.db_lock.release()
         
         return [construct_post(row) for row in rows]
+    
+    def update_pfp_by_request(self):
+        user = self.get_user_by_request()
+        if user is None: return False
+
+        file = request.files.get("pfp")
+        if file: file.save(os.path.join("pfp", user["username"] + ".png"))
+        return True
     
     def get_post_by_id(self, post_id):
         self.db_lock.acquire()

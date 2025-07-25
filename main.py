@@ -18,9 +18,35 @@ app.config['MAX_CONTENT_LENGTH'] = MAX_UPLOAD_SIZE * 1000 * 1000
 @app.route("/")
 def index():
     if util.get_is_logged_in() and db.get_user_by_request() is not None:
-        return flask.render_template("list.html")
+        return flask.render_template("homepage_list.html")
     else:
         return flask.render_template("login.html")
+    
+@app.route("/favicon.ico")
+def favicon():
+    return flask.send_file("static/img/N.ico")
+    
+@app.route("/user/<username>")
+def user(username):
+    user = db.get_user_by_username(username)
+    if user == None:
+        return flask.Response(util.get_error_template("404", "That user was not found", "/", "Return"), 404)
+    return flask.render_template("user_list.html", username=username)
+
+@app.route("/pfp/<user>")
+def get_pfp(user):
+    path = os.path.join("pfp", user)
+    if os.path.exists(path):
+        return flask.send_from_directory("pfp", user)
+    else:
+        return flask.send_file("static/img/default-pfp.png")
+    
+@app.route("/updatepfp", methods=["POST"])
+def update_pfp():
+    user = db.get_user_by_request()
+    if not user: return flask.redirect("/", 301)
+    db.update_pfp_by_request()
+    return flask.redirect("/account", 301)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -48,6 +74,12 @@ def new_post():
     user = db.get_user_by_request()
     if not user: return flask.redirect("/", 301)
     return flask.render_template("newpost.html", username=user["username"])
+
+@app.route("/account")
+def account_settings():
+    user = db.get_user_by_request()
+    if not user: return flask.redirect("/", 301)
+    return flask.render_template("account.html", username=user["username"])
 
 @app.route("/makepost", methods=["POST"])
 def make_post():

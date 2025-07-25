@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Account | Nonsensical.net</title>
+        <link rel="stylesheet" href="/static/css/vars.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/pages/account.css">
+    </head>
+    <body>
+        <iframe src="/header" id="header"></iframe>
+
+        <h1><a href="/user/{{username}}">Profile</a></h1>
+
+        <div id="account-settings">
+            <h2>{{username}}</h2>
+            <form action="/updatepfp" method="post" enctype="multipart/form-data">
+                <img class="pfp" src="/pfp/{{username}}.png">
+                <label for="pfp" class="file-input">Select new PFP</label>
+                <input type="file" id="pfp" name="pfp" 
+                accept="image/png"
+                multiple="no" onchange="document.getElementById('pfp-submit').click()">
+                <input type="submit" value="Update Profile Picture" hidden id="pfp-submit">
+            </form>
+        </div>
+
+    </body>
+</html>

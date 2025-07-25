@@ -38,3 +38,8 @@ a.link {
     text-decoration: underline;
     font-size: 1.5em;
 }
+
+#logo {
+    height: 100%;
+    cursor: pointer;
+}
