@@ -3,7 +3,7 @@ import shutil
 import sqlite3
 from const import DEBUG_MODE, MAX_BODY_LENGTH, MAX_TITLE_LENGTH, MAX_USERNAME_LENGTH, MIN_TITLE_LENGTH, MIN_USERNAME_LENGTH, POSTS_PER_PAGE, UPLOAD_FOLDER
 from flask import request
-from datetime import datetime
+from datetime import datetime, timezone
 import cryptography
 from threading import Lock
 from user_agents import parse
@@ -56,7 +56,7 @@ class Database:
             self.cursor.execute("INSERT INTO users (username, password, creation) VALUES (:username, :password, :creation)", {
                 "username": username, 
                 "password": password_hashed if password_hashed is not None else cryptography.hash_password(password_raw),
-                "creation": datetime.now()})
+                "creation": datetime.now(timezone.utc)})
             self.connection.commit()
             self.db_lock.release()
             return True, ""
@@ -69,7 +69,7 @@ class Database:
             self.cursor.execute("INSERT INTO tokens (token, username, creation, platform, browser) VALUES (:token, :username, :creation, :platform, :browser)", {
                 "token": token,
                 "username": username,
-                "creation": datetime.now(),
+                "creation": datetime.now(timezone.utc),
                 "platform": platform,
                 "browser": browser
             })
@@ -85,7 +85,7 @@ class Database:
                 "title": title,
                 "body": body,
                 "owner": owner,
-                "creation": datetime.now()
+                "creation": datetime.now(timezone.utc)
             })
             post_id = self.cursor.fetchone()[0]
             self.connection.commit()
@@ -151,15 +151,15 @@ class Database:
         extra = request.args["extra"]
 
         self.db_lock.acquire()
-        print(f"Limit: {POSTS_PER_PAGE}, Offset: {page * POSTS_PER_PAGE}, Start Time: {datetime.fromtimestamp(int(start_time))}, Mode: {mode}, Extra: {extra}")
+        print(f"Limit: {POSTS_PER_PAGE}, Offset: {page * POSTS_PER_PAGE}, Start Time: {datetime.fromtimestamp(int(start_time), timezone.utc)}, Mode: {mode}, Extra: {extra}")
         if mode == "all":
             self.cursor.execute("SELECT * FROM posts WHERE creation < :starttime ORDER BY creation DESC LIMIT :limit OFFSET :offset", {
-                "starttime": datetime.fromtimestamp(int(start_time)),
+                "starttime": datetime.fromtimestamp(int(start_time), timezone.utc),
                 "limit": POSTS_PER_PAGE,
                 "offset": page * POSTS_PER_PAGE})
         elif mode == "user":
             self.cursor.execute("SELECT * FROM posts WHERE creation < :starttime AND owner IS :username ORDER BY creation DESC LIMIT :limit OFFSET :offset", {
-                "starttime": datetime.fromtimestamp(int(start_time)),
+                "starttime": datetime.fromtimestamp(int(start_time), timezone.utc),
                 "limit": POSTS_PER_PAGE,
                 "offset": page * POSTS_PER_PAGE,
                 "username": extra})
