@@ -34,7 +34,13 @@ function stringDateToRelativeStringDate(date) {
 }
 
 const imageTypes = ["png", "jpeg", "jpg", "webp", "gif"];
-const audioTypes = ["mp3", "wav"];
+const audioTypes = ["mp3", "wav", "ogg"];
+const videoTypes = ["mp4", "webm", "mkv"]
+const videoMimeTypes = {
+    "mp4": "video/mp4",
+    "webm": "video/webm",
+    "mkv": "video/webm"
+}
 
 function getFileType(filename) {
     const filenameSplit = filename.split(".");
@@ -53,6 +59,14 @@ function constructFileElement(filename, post_id) {
         element.controls = true;
         const source = document.createElement("source");
         source.src = url;
+        element.appendChild(source);
+        return element;
+    } else if (videoTypes.includes(filetype)) {
+        const element = document.createElement("video");
+        element.controls = true;
+        const source = document.createElement("source");
+        source.src = url;
+        source.type = videoMimeTypes[filetype];
         element.appendChild(source);
         return element;
     } else {

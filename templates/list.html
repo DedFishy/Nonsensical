@@ -101,16 +101,25 @@
                             postElement.appendChild(postBody);
                         }
 
-                        if (post["files"].length > 0) {
-                            const postImages = document.createElement("div");
-                            postImages.className = "post-images";
-                            post["files"].forEach((filename, i, a) => {
-                                if (imageTypes.includes(getFileType(filename))) {
-                                    const imageEl = document.createElement("img");
-                                    imageEl.src = `/postmedia/${post["id"]}/${filename}`
-                                    postImages.appendChild(imageEl);
-                                }
-                            });
+                        const postImages = document.createElement("div");
+                        postImages.className = "post-images";
+                        post["files"].forEach((filename, i, a) => {
+                            if (imageTypes.includes(getFileType(filename))) {
+                                const imageEl = document.createElement("img");
+                                imageEl.src = `/postmedia/${post["id"]}/${filename}`
+                                postImages.appendChild(imageEl);
+                            } else if (videoTypes.includes(getFileType(filename))) {
+                                const videoEl = document.createElement("video");
+                                videoEl.controls = "yes";
+                                const videoSource = document.createElement("source");
+                                videoSource.src = `/postmedia/${post["id"]}/${filename}`;
+                                videoSource.type = videoMimeTypes[getFileType(filename)];
+                                videoEl.appendChild(videoSource);
+                                postImages.appendChild(videoEl);
+                            }
+                        });
+                        
+                        if (postImages.children.length > 0) {
                             postElement.appendChild(postImages);
                         }
 

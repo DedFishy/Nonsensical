@@ -87,7 +87,7 @@ body h1 {
     align-items: start;
     justify-content: start;
 }
-.post-images img {
+.post-images img, .post-images video {
     height: 100%;
     flex-grow: 1;
     object-fit: contain;

@@ -1,4 +1,5 @@
 import os
+import shutil
 import sqlite3
 from const import DEBUG_MODE, MAX_BODY_LENGTH, MAX_TITLE_LENGTH, MAX_USERNAME_LENGTH, MIN_TITLE_LENGTH, MIN_USERNAME_LENGTH, POSTS_PER_PAGE, UPLOAD_FOLDER
 from flask import request
@@ -255,6 +256,7 @@ class Database:
                              })
         self.connection.commit()
         self.db_lock.release()
+        shutil.rmtree(os.path.join("post_media", post_id))
 
     def close(self):
         self.db_lock.acquire()
